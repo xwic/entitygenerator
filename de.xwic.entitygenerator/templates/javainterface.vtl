@@ -1,0 +1,28 @@
+#set ($properties=$entity.properties)
+#set ($className=$format.firstToUpper($entity.name))
+
+package $entity.packageInfo.name;
+
+#* generate imports *#
+#foreach ($property in $properties)
+import $property.javaClass;
+#end 
+
+import de.xwic.appkit.core.dao.IEntity;
+
+#* generate type comment *#
+/**
+ * $!entity.description
+ * 
+ * @author XWIC ENTITY GENERATOR
+ */
+public interface I$className extends IEntity {
+	#* generate getters and setters for the properties *#
+  #foreach ($property in $properties)
+
+  public $property.shortJavaName get$format.firstToUpper($property.name)();
+		
+  public set$format.firstToUpper($property.name)($property.shortJavaName $property.name);
+  #end 
+	
+}
