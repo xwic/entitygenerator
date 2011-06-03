@@ -1,0 +1,60 @@
+#set ($properties=$entity.properties)
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.netapp.pulse.model.entities.impl.Area" table="AREA" lazy="true">
+
+        <id name="id" type="int">
+            <column name="AREA_ID" not-null="true"/>
+            <generator class="native"/>
+        </id>
+
+		<version column="VERSION" name="version" type="long"/>
+
+ 		<property name="deleted" column="DELETED" not-null="true"/>
+ 
+        <property name="downloadVersion" type="long">
+        	<column name="DOWNLOAD_VERSION"/>
+        </property>
+        <property name="serverEntityId" column="SRVENTITY_ID" not-null="true" type="int"/>
+        
+        #foreach($property in $properties)
+        	#set ($name=$property.name)
+        	#if ($propertyUtil.isPrimitive($property))
+        		<property name="$name" type="$property.shortJavaName" column="$property.dbColumnName"/>
+			#elseif ($propertyUtil.isEntityType($property))
+        		<many-to-one name="$name" class="$property.javaClass" column="$property.dbColumnName"/>        		
+        	#elseif ($propertyUtil.isString($property))
+        		#if ($property.clob)
+        			<property name="$name" type="org.hibernate.type.TextType" column="$property.dbColumnName" />
+        		#else
+        			<property name="$name" column="$property.dbColumnName" #if($property.maxLength > 0) length="$property.maxLength" #end />
+        		#end	
+        	#else
+        		<property name="$name" column="$property.dbColumnName"/>
+        	#end
+        #end
+        
+        
+		<property name="createdAt" type="timestamp">
+			<column name="CREATED_AT" />
+		</property>
+		<property name="changed" type="boolean">
+			<column name="CHANGED" />
+		</property>
+		<property name="createdFrom">
+			<column name="CREATED_FROM" length="50" />
+		</property>
+		<property name="lastModifiedFrom">
+			<column name="LASTMODIFIED_FROM" length="50" />
+		</property>
+		<property name="lastModifiedAt" type="timestamp">
+			<column name="LASTMODIFIED_AT" />
+		</property>
+	</class>
+</hibernate-mapping>

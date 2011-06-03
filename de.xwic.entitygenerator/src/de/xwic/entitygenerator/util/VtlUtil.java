@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Locale;
@@ -54,6 +55,7 @@ public class VtlUtil {
 			Iterator<String> i = contextObjects.keySet().iterator();
 
 			vlContext.put("format", new FormatUtil(locale));
+			vlContext.put("propertyUtil", new PropertyUtil());
 
 			while (i.hasNext()) {
 				String key = i.next();
@@ -85,7 +87,10 @@ public class VtlUtil {
 		try {
 			VelocityContext vlContext = new VelocityContext();
 			new VelocityContext();
+			
 			vlContext.put("format", new FormatUtil(locale));
+			vlContext.put("propertyUtil", new PropertyUtil());
+			
 			Iterator<String> i = contextObjects.keySet().iterator();
 
 			while (i.hasNext()) {
@@ -106,6 +111,37 @@ public class VtlUtil {
 	}
 
 	/**
+	 * @param absoluteFileName
+	 * @param contextObjects
+	 * @return
+	 */
+	public void generateContentFromTemplateFile(String absoluteFileName, Map<String, Object> contextObjects, Writer writer) {
+
+		try {
+			VelocityContext vlContext = new VelocityContext();
+			new VelocityContext();
+			
+			vlContext.put("format", new FormatUtil(locale));
+			vlContext.put("propertyUtil", new PropertyUtil());
+			
+			Iterator<String> i = contextObjects.keySet().iterator();
+
+			while (i.hasNext()) {
+				String key = i.next();
+
+				vlContext.put(key, contextObjects.get(key));
+			}
+
+			FileReader reader = new FileReader(absoluteFileName);
+			velocityEngine.evaluate(vlContext, writer, absoluteFileName, reader);
+			
+			writer.close();
+		} catch (Exception ex) {
+			log.error(ex);
+		}
+	}
+	
+	/**
 	 * @param template
 	 * @param contextObjects
 	 * @return
@@ -114,8 +150,10 @@ public class VtlUtil {
 
 		try {
 			VelocityContext vlContext = new VelocityContext();
+			
 			vlContext.put("format", new FormatUtil(locale));
-
+			vlContext.put("propertyUtil", new PropertyUtil());
+			
 			Iterator<String> i = contextObjects.keySet().iterator();
 
 			while (i.hasNext()) {

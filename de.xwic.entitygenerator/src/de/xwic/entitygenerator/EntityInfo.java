@@ -1,8 +1,11 @@
 package de.xwic.entitygenerator;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.xwic.appkit.core.config.Domain;
+import de.xwic.entitygenerator.property.EntityProperty;
 
 /**
  * Wraps the informations for an entity.
@@ -11,6 +14,25 @@ import de.xwic.appkit.core.config.Domain;
  */
 public class EntityInfo {
 
+	public enum FileType {
+		/** JAVA class type */
+		JAVA_CLASS,
+		/** JAVA interface file */
+		JAVA_INTERFACE,
+		/** Entity Descriptor XML file */
+		ENTITY_DESCRIPTOR,
+		/** List Setup XML file */
+		LIST_SETUP,
+		/** DAO Interface file */
+		DAO_INTERFACE,
+		/** DAO Class file */
+		DAO_CLASS,
+		/** Hibernate mapping file */
+		HIBERNATE_MAPPING,
+		/** Properties bundle file */
+		PROPERTIES_BUNDLE
+	}
+	
 	private EntityProperty[] properties;
 	
 	private String name;
@@ -18,7 +40,7 @@ public class EntityInfo {
 	private Package packageInfo;
 	private Domain domain;
 
-	private File file;
+	private Map<FileType, File> files = new HashMap<FileType, File>();
 	
 	/**
 	 * @return the properties
@@ -83,16 +105,20 @@ public class EntityInfo {
 	/**
 	 * @return the file
 	 */
-	public File getFile() {
-		return file;
+	public File getFile(FileType fileType) {
+		return files.get(fileType);
 	}
 
 	/**
 	 * @param file
 	 *            the file to set
 	 */
-	public void setFile(File file) {
-		this.file = file;
+	public void putFile(FileType type, File file) {
+		if (null == files) {
+			files = new HashMap<FileType, File>();
+		}
+		
+		files.put(type, file);
 	}
 
 	/**
@@ -108,5 +134,4 @@ public class EntityInfo {
 	public void setDomain(Domain domain) {
 		this.domain = domain;
 	}
-
 }

@@ -9,7 +9,7 @@ import de.xwic.entitygenerator.writer.IEntityWriter;
 import de.xwic.entitygenerator.writer.IEntityWriterDestination;
 
 /**
- * Default implementation for writing the product.setup.xml file, the entity descriptor XML file and the list setup.
+ * Default implementation for writing the product.setup.xml file and the list setup.
  * @author Aron Cotrau
  */
 public class SetupWriter implements IEntityWriter {
@@ -18,7 +18,7 @@ public class SetupWriter implements IEntityWriter {
 	 * @see de.xwic.entitygenerator.writer.IEntityWriter#writeEntity(de.xwic.entitygenerator.EntityInfo, de.xwic.entitygenerator.writer.IEntityWriterDestination)
 	 */
 	@Override
-	public void writeEntity(EntityInfo entityInfo, IEntityWriterDestination destination) {
+	public void writeEntity(EntityInfo entityInfo, IEntityWriterDestination destination) throws Exception {
 
 	}
 

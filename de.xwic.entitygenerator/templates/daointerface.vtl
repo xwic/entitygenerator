@@ -1,0 +1,17 @@
+#set ($className=$format.firstToUpper($entity.name))
+#set ($package=$entity.packageInfo)
+#set ($packageName=$entity.packageInfo.name)
+
+package $package.getDAOInterfacePackageName();
+
+import de.xwic.appkit.core.dao.DAO;
+
+#* generate type comment *#
+/**
+ * DAO interface for I$className entity
+ * 
+ * @author XWIC ENTITY GENERATOR
+ */
+public interface I${className}DAO extends DAO {
+	
+}

@@ -1,0 +1,37 @@
+#set ($className=$format.firstToUpper($entity.name))
+#set ($package=$entity.packageInfo)
+#set ($packageName=$entity.packageInfo.name)
+
+package $package.getDAOPackageName();
+
+import ${package.getDAOInterfacePackageName()}.I${className}DAO;
+import ${package.getEntityInterfacePackageName()}.I${className};
+import ${package.getEntityPackageName()}.${className};
+
+import de.xwic.appkit.core.dao.AbstractDAO;
+import de.xwic.appkit.core.dao.DataAccessException;
+import de.xwic.appkit.core.dao.Entity;
+import de.xwic.appkit.core.dao.IEntity;
+
+#* generate type comment *#
+/**
+ * DAO class for I$className entity
+ * 
+ * @author XWIC ENTITY GENERATOR
+ */
+public interface ${className}DAO extends AbstractDAO implements I${className}DAO {
+	
+	public Class<? extends Entity> getEntityImplClass() {
+		return ${className}.class;
+	}
+
+
+	public IEntity createEntity() throws DataAccessException {
+		return new ${className}();
+	}
+
+	public Class<? extends IEntity> getEntityClass() {
+		return I${className}.class;
+	}
+	
+}

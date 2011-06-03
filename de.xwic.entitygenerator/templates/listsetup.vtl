@@ -1,0 +1,15 @@
+#set ($properties=$entity.properties)
+#set ($package=$entity.packageInfo)
+#set ($className=$format.firstToUpper($entity.name))
+#set ($prefix="${package.getEntityInterfacePackageName()}.I${className}") 
+
+<?xml version="1.0" encoding="iso-8859-1"?>
+<table type="$prefix" id="default" default-sort="server" queryEntities="false">
+#foreach ($property in $properties)
+	#set ($default = 0)
+	#if ($property.defaultListSetupIncluded)
+		#set ($default=1)
+	#end
+	<column id="$property.name" default="$default" width="150" />
+#end
+</table>

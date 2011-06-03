@@ -17,6 +17,6 @@ public interface IEntityWriter {
 	 * @param entityInfo
 	 * @param destination
 	 */
-	public void writeEntity(EntityInfo entityInfo, IEntityWriterDestination destination);
+	public void writeEntity(EntityInfo entityInfo, IEntityWriterDestination destination) throws Exception;
 	
 }

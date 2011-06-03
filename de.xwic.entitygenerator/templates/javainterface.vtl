@@ -1,7 +1,8 @@
 #set ($properties=$entity.properties)
+#set ($package=$entity.packageInfo)
 #set ($className=$format.firstToUpper($entity.name))
 
-package $entity.packageInfo.name;
+package $package.getEntityInterfacePackageName();
 
 #* generate imports *#
 #foreach ($property in $properties)

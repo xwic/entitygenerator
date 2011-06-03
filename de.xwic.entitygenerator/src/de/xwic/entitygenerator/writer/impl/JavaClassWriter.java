@@ -3,19 +3,19 @@
  */
 package de.xwic.entitygenerator.writer.impl;
 
+import de.xwic.entitygenerator.EntityInfo;
 import de.xwic.entitygenerator.writer.base.VelocityTemplateSourceWriter;
 
 /**
- * Writer for the hbm.xml file.
+ * Default implementation for writing the Java class for the {@link EntityInfo}.
  * 
  * @author Aron Cotrau
  */
-public class HibernateMappingWriter extends VelocityTemplateSourceWriter {
+public class JavaClassWriter extends VelocityTemplateSourceWriter {
 
 	@Override
 	protected String getVelocityFileName() {
-		return "templates/hibernatemapping.vtl";
+		return "templates/javaclass.vtl";
 	}
-
 
 }

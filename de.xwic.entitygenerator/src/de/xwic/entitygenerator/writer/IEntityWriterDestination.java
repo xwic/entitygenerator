@@ -14,6 +14,6 @@ public interface IEntityWriterDestination {
 	/**
 	 * @return the destination for the writer
 	 */
-	public Writer getWriterDestination() throws Exception;
+	public Writer getWriter() throws Exception;
 	
 }

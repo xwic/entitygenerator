@@ -1,7 +1,8 @@
 #set ($properties=$entity.properties)
+#set ($package=$entity.packageInfo)
 #set ($className=$format.firstToUpper($entity.name))
 
-package $entity.packageInfo.name;
+package $package.getEntityPackageName();
 
 #* generate imports *#
 #foreach ($property in $properties)
@@ -20,7 +21,7 @@ public class $className extends Entity implements I$className {
 
 	#* generate members *#
 #foreach ($property in $properties)
-  $property.shortJavaName $property.name;
+  private $property.shortJavaName $property.name;
 #end 
 
 #* generate getters and setters for the properties *#
