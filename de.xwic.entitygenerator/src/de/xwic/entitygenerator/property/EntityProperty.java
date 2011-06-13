@@ -41,7 +41,7 @@ public class EntityProperty extends Property {
 	public void setName(String name) {
 		super.setName(name);
 		setBundleName(JavaUtil.getBundleName(name));
-		setDbColumnName(bundleName.replaceAll(" ", "_").toUpperCase());;
+		setDbColumnName(bundleName.replaceAll(" ", "_").toUpperCase());
 	}
 	
 	public String getBundleName() {

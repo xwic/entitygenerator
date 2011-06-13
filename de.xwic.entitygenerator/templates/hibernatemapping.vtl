@@ -7,10 +7,10 @@
 
 <hibernate-mapping>
 
-	<class name="com.netapp.pulse.model.entities.impl.Area" table="AREA" lazy="true">
+	<class name="$entity.getJavaName()" table="$entity.getDbTableName()">
 
         <id name="id" type="int">
-            <column name="AREA_ID" not-null="true"/>
+            <column name="${entity.getDbTableName()}_ID" not-null="true"/>
             <generator class="native"/>
         </id>
 

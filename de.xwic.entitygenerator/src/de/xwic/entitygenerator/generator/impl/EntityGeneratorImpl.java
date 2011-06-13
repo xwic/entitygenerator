@@ -15,6 +15,7 @@ import de.xwic.entitygenerator.writer.impl.JavaClassWriter;
 import de.xwic.entitygenerator.writer.impl.JavaInterfaceWriter;
 import de.xwic.entitygenerator.writer.impl.ListSetupWriter;
 import de.xwic.entitygenerator.writer.impl.PropertiesBundleFileWriter;
+import de.xwic.entitygenerator.writer.impl.XmlEntityDescriptorWriter;
 
 /**
  * 
@@ -25,9 +26,9 @@ public class EntityGeneratorImpl implements IEntityGenerator {
 	private EntityInfo info;
 	private WriterDestinationManager writerDestFactory;
 	
-	public EntityGeneratorImpl(EntityInfo info) {
+	public EntityGeneratorImpl(EntityInfo info, String rootFolderName) {
 		this.info = info;
-		writerDestFactory = new WriterDestinationManager(info);
+		writerDestFactory = new WriterDestinationManager(info, rootFolderName);
 	}
 	
 	/* (non-Javadoc)
@@ -97,6 +98,12 @@ public class EntityGeneratorImpl implements IEntityGenerator {
 	public void writeHibernateMappingFile() throws Exception {
 		IEntityWriterDestination dest = writerDestFactory.createHibernateWriter();
 		IEntityWriter writer = new HibernateMappingWriter();
+		writer.writeEntity(info, dest);
+	}
+	
+	public void writeEntityXmlFile() throws Exception {
+		IEntityWriterDestination dest = writerDestFactory.createEntityDescriptorWriter();
+		IEntityWriter writer = new XmlEntityDescriptorWriter();
 		writer.writeEntity(info, dest);
 	}
 	

@@ -5,55 +5,37 @@
 
 package de.xwic.entitygenerator.test;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
 import de.xwic.appkit.core.model.entities.IPicklistEntry;
+import de.xwic.entitygenerator.EntityGeneratorManager;
 import de.xwic.entitygenerator.EntityInfo;
 import de.xwic.entitygenerator.Package;
+import de.xwic.entitygenerator.generator.IEntityGenerator;
 import de.xwic.entitygenerator.property.EntityProperty;
-import de.xwic.entitygenerator.writer.IEntityWriterDestination;
-import de.xwic.entitygenerator.writer.WriterDestinationManager;
-import de.xwic.entitygenerator.writer.impl.JavaClassWriter;
 
 /**
  * 
  * @author Aron Cotrau
  */
 public class EntityWriterFactoryTest extends TestCase {
-
-	public void testTransformer() {
-		String packageName = "de.xwic.test";
-
-		System.out.println("Transforming package '" + packageName + "' into folders.");
-
-		File file;
-		try {
-			file = WriterDestinationManager.transformPackage(packageName);
-
-			if (file.exists() && file.isDirectory()) {
-				System.out.println("Folder Created ! Absolute path = " + file.getAbsolutePath());
-			} else {
-				System.out.println("Folder not Created !");
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
-	public void testCreateJavaClass() {
+	public void testGenerator() {
 		try {
-			EntityInfo createEntityInfo = createEntityInfo();
-			WriterDestinationManager factory = new WriterDestinationManager(createEntityInfo); 
-			IEntityWriterDestination dest = factory.createJavaClassWriter();
+			IEntityGenerator generator = EntityGeneratorManager.getEntityGenerator(createEntityInfo(), "dist");
 			
-			JavaClassWriter classWriter = new JavaClassWriter();
+			generator.writeJavaClassFile();
+			generator.writeDAOClassFile();
+			generator.writeDAOInterfaceFile();
+			generator.writeJavaInterfaceFile();
+			generator.writeEntityXmlFile();
+			generator.writeHibernateMappingFile();
+			generator.writeListSetupFile();
+			generator.writePropertiesBundleFile();
 			
-			classWriter.writeEntity(createEntityInfo, dest);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

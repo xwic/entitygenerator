@@ -5,6 +5,7 @@
 
 package de.xwic.entitygenerator.writer.base;
 
+import java.io.File;
 import java.util.HashMap;
 
 import de.xwic.entitygenerator.EntityInfo;
@@ -32,8 +33,9 @@ public abstract class VelocityTemplateSourceWriter implements IEntityWriter {
 
 			updateContextObjects(contextObjects);
 			
+			File currentDir = new File("../de.xwic.entitygenerator"); 
 			// write the entity class
-			util.generateContentFromTemplateFile(getVelocityFileName(), contextObjects, destination.getWriter());
+			util.generateContentFromTemplateFile(new File(currentDir.getAbsolutePath() + File.separator + getVelocityFileName()), contextObjects, destination.getWriter());
 		} catch (Exception e) {
 			throw e;
 		}

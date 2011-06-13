@@ -17,7 +17,15 @@ public class EntityGeneratorManager {
 	 * @return the {@link IEntityGenerator} implementation
 	 */
 	public static IEntityGenerator getEntityGenerator(EntityInfo entityInfo) {
-		return new EntityGeneratorImpl(entityInfo);
+		return getEntityGenerator(entityInfo, "dist");
+	}
+	
+	/**
+	 * @param entityInfo
+	 * @return the {@link IEntityGenerator} implementation
+	 */
+	public static IEntityGenerator getEntityGenerator(EntityInfo entityInfo, String rootFolderName) {
+		return new EntityGeneratorImpl(entityInfo, rootFolderName);
 	}
 	
 }

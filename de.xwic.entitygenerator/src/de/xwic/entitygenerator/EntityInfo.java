@@ -6,6 +6,7 @@ import java.util.Map;
 
 import de.xwic.appkit.core.config.Domain;
 import de.xwic.entitygenerator.property.EntityProperty;
+import de.xwic.entitygenerator.util.JavaUtil;
 
 /**
  * Wraps the informations for an entity.
@@ -37,6 +38,8 @@ public class EntityInfo {
 	
 	private String name;
 	private String description;
+	private String titlePattern;
+	
 	private Package packageInfo;
 	private Domain domain;
 
@@ -108,6 +111,14 @@ public class EntityInfo {
 	public File getFile(FileType fileType) {
 		return files.get(fileType);
 	}
+	
+	public String getTitlePattern() {
+		return titlePattern;
+	}
+
+	public void setTitlePattern(String titlePattern) {
+		this.titlePattern = titlePattern;
+	}
 
 	/**
 	 * @param file
@@ -133,5 +144,14 @@ public class EntityInfo {
 	 */
 	public void setDomain(Domain domain) {
 		this.domain = domain;
+	}
+	
+	public String getJavaName() {
+		return getPackageInfo().getEntityInterfacePackageName() + "." + getName();
+	}
+	
+	public String getDbTableName() {
+		String tmp = JavaUtil.getBundleName(name);
+		return tmp.replaceAll(" ", "_").toUpperCase();
 	}
 }

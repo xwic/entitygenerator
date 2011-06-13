@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.xwic.entitygenerator.eclipse.ui.wizard.propertiespage;
+package de.xwic.entitygenerator.eclipse.ui.wizard.hbmpage;
 
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -13,10 +13,7 @@ import de.xwic.entitygenerator.property.EntityProperty;
  * 
  * @author Aron Cotrau
  */
-public class PropertiesLabelProvider implements ITableLabelProvider {
-
-	public PropertiesLabelProvider() {
-	}
+public class HbmLabelProvider implements ITableLabelProvider {
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
@@ -68,15 +65,19 @@ public class PropertiesLabelProvider implements ITableLabelProvider {
 		case 1:
 			return prop.getShortJavaName();
 		case 2:
-			return Boolean.toString(prop.getRequired());
-		case 3:
 			if (prop.getShortJavaName().equalsIgnoreCase("string")) {
 				return String.valueOf(prop.getMaxLength());
 			}
 			
 			return "";
+		case 3:
+			if (prop.getShortJavaName().equalsIgnoreCase("string")) {
+				boolean clob = prop.isClob();
+				return Boolean.toString(clob); 
+			}
+			return "";
 		case 4:
-			return prop.getBundleName();
+			return prop.getDbColumnName();
 		}
 		
 		return "";

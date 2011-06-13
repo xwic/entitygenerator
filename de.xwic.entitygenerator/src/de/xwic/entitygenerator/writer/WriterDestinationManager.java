@@ -23,16 +23,19 @@ public class WriterDestinationManager {
 	private EntityInfo entityInfo;
 	private Package packageInfo;
 
+	private String rootFolderName;
+	
 	/**
 	 * @param entityInfo
 	 */
-	public WriterDestinationManager(EntityInfo entityInfo) {
+	public WriterDestinationManager(EntityInfo entityInfo, String rootFolderName) {
 		if (null == entityInfo) {
 			throw new IllegalArgumentException("EntityInfo is not allowed to be null !");
 		}
 
 		this.entityInfo = entityInfo;
 		this.packageInfo = entityInfo.getPackageInfo();
+		this.rootFolderName = rootFolderName;
 	}
 
 	public IEntityWriterDestination createJavaClassWriter() throws IOException {
@@ -110,14 +113,20 @@ public class WriterDestinationManager {
 		return createWriterDestination(fileName, fileType);
 	}
 	
-	public static File transformPackage(String packageName) throws IOException {
+	private File transformPackage(String packageName) throws IOException {
 		String temp = new String(packageName);
 		temp = temp.replace(".", File.separator);
 
-		temp = "dist" + File.separator + temp;
+		if (null == rootFolderName) {
+			rootFolderName = "dist";
+		}
+		
+		temp = rootFolderName + File.separator + temp;
 
 		File file = new File(temp);
 		if (file.exists()) {
+			file.delete();
+			file.mkdirs();
 			return file;
 		} else {
 			if (file.mkdirs()) {

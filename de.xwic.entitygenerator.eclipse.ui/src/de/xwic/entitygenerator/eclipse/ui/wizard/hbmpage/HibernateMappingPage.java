@@ -1,13 +1,10 @@
-/*
- * Copyright (c) 2009 Network Appliance, Inc.
- * All rights reserved.
+/**
+ * 
  */
-
-package de.xwic.entitygenerator.eclipse.ui.wizard.propertiespage;
+package de.xwic.entitygenerator.eclipse.ui.wizard.hbmpage;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
-import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.wizard.WizardPage;
@@ -25,36 +22,41 @@ import de.xwic.entitygenerator.eclipse.ui.wizard.GeneratorWizardModel;
  * 
  * @author Aron Cotrau
  */
-public class PropertiesIdentificationPage extends WizardPage {
+public class HibernateMappingPage extends WizardPage {
 
 	private GeneratorWizardModel model;
-
 	private TableViewer tableViewer;
-
+	
 	/**
 	 * @param pageName
 	 */
-	public PropertiesIdentificationPage(String pageName, GeneratorWizardModel model) {
+	public HibernateMappingPage(String pageName, GeneratorWizardModel model) {
 		super(pageName);
 		
 		this.model = model;
-		setTitle("Properties Identification");
-		setDescription("General overview on the entity properties");
+		
+		setTitle("Hibernate Specific Settings");
+		setDescription("Set the properties types for the Hibernate mapping file");
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(1, false));
-
+		
+		String[] properties = new String[] {"Name", "Type", "Maxlength", "Clob", "DBColumn"};
+		
 		EntityInfo entityInfo = model.getEntityInfo();
 
 		tableViewer = new TableViewer(container, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.MULTI
 				| SWT.FULL_SELECTION);
-		tableViewer.setLabelProvider(new PropertiesLabelProvider());
-		tableViewer.setContentProvider(new PropertiesContentProvider());
+		tableViewer.setLabelProvider(new HbmLabelProvider());
+		tableViewer.setContentProvider(new HbmContentProvider());
 		tableViewer.setInput(entityInfo.getProperties());
-
+		
 		// Set up the table
 		Table table = tableViewer.getTable();
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -68,15 +70,15 @@ public class PropertiesIdentificationPage extends WizardPage {
 		tc.setWidth(150);
 		
 		tc = new TableColumn(table, SWT.CENTER);
-		tc.setText("Required");
-		tc.setWidth(150);
-		
-		tc = new TableColumn(table, SWT.CENTER);
 		tc.setText("Maxlength");
 		tc.setWidth(150);
+
+		tc = new TableColumn(table, SWT.CENTER);
+		tc.setText("Clob");
+		tc.setWidth(150);
 		
 		tc = new TableColumn(table, SWT.CENTER);
-		tc.setText("Bundle String");
+		tc.setText("Database Column");
 		tc.setWidth(150);
 		
 		table.setHeaderVisible(true);
@@ -84,20 +86,18 @@ public class PropertiesIdentificationPage extends WizardPage {
 
 		// Create the cell editors
 		CellEditor[] editors = new CellEditor[5];
-		editors[0] = new TextCellEditor(table);
-		editors[1] = new ComboBoxCellEditor(table, Constants.entityTypes, SWT.READ_ONLY);
-		editors[2] = new CheckboxCellEditor(table);
-		editors[3] = new TextCellEditor(table);
+		editors[3] = new CheckboxCellEditor(table);
 		editors[4] = new TextCellEditor(table);
-		
-		// Set the editors, cell modifier, and column properties
-		tableViewer.setColumnProperties(Constants.columnProperties);
-		tableViewer.setCellModifier(new PropertiesCellModifier(tableViewer));
-		tableViewer.setCellEditors(editors);
 
-		tableViewer.refresh();
+		tableViewer.setColumnProperties(properties);
+		tableViewer.setCellModifier(new HbmCellModifier(tableViewer));
+		tableViewer.setCellEditors(editors);
 		
 		setControl(container);
+	}
+	
+	public void refreshTable() {
+		tableViewer.refresh();
 	}
 
 }

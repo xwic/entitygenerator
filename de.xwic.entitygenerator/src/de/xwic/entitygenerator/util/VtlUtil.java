@@ -1,5 +1,6 @@
 package de.xwic.entitygenerator.util;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -86,7 +87,6 @@ public class VtlUtil {
 
 		try {
 			VelocityContext vlContext = new VelocityContext();
-			new VelocityContext();
 			
 			vlContext.put("format", new FormatUtil(locale));
 			vlContext.put("propertyUtil", new PropertyUtil());
@@ -115,11 +115,10 @@ public class VtlUtil {
 	 * @param contextObjects
 	 * @return
 	 */
-	public void generateContentFromTemplateFile(String absoluteFileName, Map<String, Object> contextObjects, Writer writer) {
+	public void generateContentFromTemplateFile(File absoluteFileName, Map<String, Object> contextObjects, Writer writer) {
 
 		try {
 			VelocityContext vlContext = new VelocityContext();
-			new VelocityContext();
 			
 			vlContext.put("format", new FormatUtil(locale));
 			vlContext.put("propertyUtil", new PropertyUtil());
@@ -133,11 +132,11 @@ public class VtlUtil {
 			}
 
 			FileReader reader = new FileReader(absoluteFileName);
-			velocityEngine.evaluate(vlContext, writer, absoluteFileName, reader);
+			velocityEngine.evaluate(vlContext, writer, absoluteFileName.getName(), reader);
 			
 			writer.close();
 		} catch (Exception ex) {
-			log.error(ex);
+			throw new RuntimeException(ex);
 		}
 	}
 	

@@ -57,13 +57,6 @@ public class PropertiesCellModifier implements ICellModifier {
 		} else if (property.equalsIgnoreCase(props[3])) {
 			return String.valueOf(prop.getMaxLength());
 		} else if (property.equalsIgnoreCase(props[4])) {
-			if (prop.getShortJavaName().equalsIgnoreCase("string")) {
-				return prop.isClob();
-			}
-			
-			// return false by default
-			return Boolean.valueOf(false);
-		} else if (property.equalsIgnoreCase(props[5])) {
 			return prop.getBundleName();
 		}
 		
@@ -92,10 +85,6 @@ public class PropertiesCellModifier implements ICellModifier {
 		} else if (property.equalsIgnoreCase(props[3])) {
 			prop.setMaxLength(Integer.parseInt(value.toString()));
 		} else if (property.equalsIgnoreCase(props[4])) {
-			if (prop.getShortJavaName().equalsIgnoreCase("string")) {
-				prop.setClob((Boolean) value);
-			}
-		} else if (property.equalsIgnoreCase(props[5])) {
 			prop.setBundleName((String) value);
 		}
 		

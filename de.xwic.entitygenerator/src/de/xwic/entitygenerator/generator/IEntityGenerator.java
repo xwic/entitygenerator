@@ -48,4 +48,11 @@ public interface IEntityGenerator {
 	 */
 	public abstract void writeHibernateMappingFile() throws Exception;
 
+	
+	/**
+	 * writes the entity descriptor XML file
+	 * @throws Exception
+	 */
+	public abstract void writeEntityXmlFile() throws Exception;
+	
 }
