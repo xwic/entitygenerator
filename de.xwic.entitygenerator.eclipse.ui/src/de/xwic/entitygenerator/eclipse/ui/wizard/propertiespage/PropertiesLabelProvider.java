@@ -7,6 +7,7 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
+import de.xwic.entitygenerator.eclipse.ui.Activator;
 import de.xwic.entitygenerator.property.EntityProperty;
 
 /**
@@ -52,6 +53,22 @@ public class PropertiesLabelProvider implements ITableLabelProvider {
 	 */
 	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
+		EntityProperty prop = (EntityProperty) element;
+		
+		if (columnIndex == 2) {
+			if (prop.getRequired()) {
+				return Activator.getDefault().getImage(Activator.IMG_CHECK);
+			} else {
+				return Activator.getDefault().getImage(Activator.IMG_UNCHECK);
+			}
+		} else if (columnIndex == 3) {
+			if (prop.isDefaultListSetupIncluded()) {
+				return Activator.getDefault().getImage(Activator.IMG_CHECK);
+			} else {
+				return Activator.getDefault().getImage(Activator.IMG_UNCHECK);
+			}
+		}
+		
 		return null;
 	}
 
@@ -68,14 +85,16 @@ public class PropertiesLabelProvider implements ITableLabelProvider {
 		case 1:
 			return prop.getShortJavaName();
 		case 2:
-			return Boolean.toString(prop.getRequired());
+			return "";
 		case 3:
+			return "";
+		case 4:
 			if (prop.getShortJavaName().equalsIgnoreCase("string")) {
 				return String.valueOf(prop.getMaxLength());
 			}
 			
 			return "";
-		case 4:
+		case 5:
 			return prop.getBundleName();
 		}
 		

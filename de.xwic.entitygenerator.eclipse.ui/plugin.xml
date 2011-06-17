@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
    <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            id="de.xwic.entitygenerator.eclipse.ui.contribution1">
-         <menu
-               label="New Submenu"
-               path="additions"
-               id="de.xwic.entitygenerator.eclipse.ui.menu1">
-            <separator
-                  name="group1">
-            </separator>
-         </menu>
-         <action
-               label="New Action"
-               class="de.xwic.entitygenerator.eclipse.ui.popup.actions.NewAction"
-               menubarPath="de.xwic.entitygenerator.eclipse.ui.menu1/group1"
-               enablesFor="1"
-               id="de.xwic.entitygenerator.eclipse.ui.newAction">
-         </action>
-      </objectContribution>
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
+         <command
+               commandId="de.xwic.generator"
+               label="XWIC Generator"
+               style="push">
+			<visibleWhen>
+               <with
+                     variable="activeMenuSelection">
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.jdt.core.ICompilationUnit">
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="de.xwic.entitygenerator.eclipse.ui.popup.actions.GeneratorCommandHandler"
+            id="de.xwic.generator"
+            name="Generator">
+      </command>
    </extension>
 
 </plugin>

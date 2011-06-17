@@ -48,7 +48,7 @@ public class VtlUtil {
 	 * @param contextObjects
 	 * @return
 	 */
-	public String generateContentFromTemplate(URL templateUrl, Map<String, Object> contextObjects) {
+	public void generateContentFromTemplate(URL templateUrl, Map<String, Object> contextObjects, Writer writer) {
 
 		try {
 			VelocityContext vlContext = new VelocityContext();
@@ -65,19 +65,45 @@ public class VtlUtil {
 			InputStream in = templateUrl.openStream();
 			try {
 				Reader reader = new InputStreamReader(in);
-				StringWriter writer = new StringWriter();
 				velocityEngine.evaluate(vlContext, writer, templateUrl.getPath(), reader);
-
-				return writer.toString();
 			} finally {
 				in.close();
+				writer.close();
 			}
 		} catch (Exception ex) {
 			log.error(ex);
-			return ex.getMessage();
+			throw new RuntimeException(ex);
 		}
 	}
 
+	public void generateContentFromTemplateStream(InputStream in, Map<String, Object> contextObjects, Writer writer) {
+
+		try {
+			VelocityContext vlContext = new VelocityContext();
+			
+			vlContext.put("format", new FormatUtil(locale));
+			vlContext.put("propertyUtil", new PropertyUtil());
+			
+			Iterator<String> i = contextObjects.keySet().iterator();
+
+			while (i.hasNext()) {
+				String key = i.next();
+
+				vlContext.put(key, contextObjects.get(key));
+			}
+
+			try {
+				Reader reader = new InputStreamReader(in);
+				velocityEngine.evaluate(vlContext, writer, "InputStream", reader);
+			} finally {
+				in.close();
+				writer.close();
+			}
+		} catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+	
 	/**
 	 * @param absoluteFileName
 	 * @param contextObjects

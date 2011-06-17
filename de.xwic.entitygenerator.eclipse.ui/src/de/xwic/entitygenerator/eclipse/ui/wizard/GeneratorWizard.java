@@ -10,7 +10,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 
 import de.xwic.entitygenerator.EntityGeneratorManager;
-import de.xwic.entitygenerator.eclipse.ui.wizard.filespage.FilesSelectionPage;
+import de.xwic.entitygenerator.eclipse.ui.wizard.general.GeneralSettingsPage;
 import de.xwic.entitygenerator.eclipse.ui.wizard.hbmpage.HibernateMappingPage;
 import de.xwic.entitygenerator.eclipse.ui.wizard.propertiespage.PropertiesIdentificationPage;
 import de.xwic.entitygenerator.eclipse.ui.wizard.summary.SummaryPage;
@@ -24,7 +24,7 @@ public class GeneratorWizard extends Wizard {
 
 	private GeneratorWizardModel model;
 
-	private FilesSelectionPage filesSelPage;
+	private GeneralSettingsPage generalPage;
 	private PropertiesIdentificationPage propIdentPage;
 	private HibernateMappingPage hbmPage;
 	private SummaryPage summaryPage;
@@ -34,15 +34,17 @@ public class GeneratorWizard extends Wizard {
 	 */
 	public GeneratorWizard(GeneratorWizardModel model) {
 		this.model = model;
+		
+		setWindowTitle("XWIC Code Generator");
 	}
 
 	@Override
 	public void addPages() {
 		super.addPages();
 
-		filesSelPage = new FilesSelectionPage("filesSelPage", model);
-		addPage(filesSelPage);
-
+		generalPage = new GeneralSettingsPage("generalPage", model);
+		addPage(generalPage);
+		
 		propIdentPage = new PropertiesIdentificationPage("propertiesPage", model);
 		addPage(propIdentPage);
 
@@ -65,7 +67,7 @@ public class GeneratorWizard extends Wizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		IEntityGenerator generator = EntityGeneratorManager.getEntityGenerator(model.getEntityInfo());
+		IEntityGenerator generator = EntityGeneratorManager.getEntityGenerator(model.getEntityInfo(), model.getFolderName());
 
 		try {
 			if (model.isDaoClassFile()) {
@@ -115,6 +117,8 @@ public class GeneratorWizard extends Wizard {
 			// previous page
 			hbmPage.refreshTable();
 			return hbmPage;
+		} else if (page == summaryPage) {
+			summaryPage.reload();
 		}
 
 		return super.getNextPage(page);

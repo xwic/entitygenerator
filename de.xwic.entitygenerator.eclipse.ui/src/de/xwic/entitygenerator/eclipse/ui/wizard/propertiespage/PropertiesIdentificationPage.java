@@ -10,7 +10,6 @@ import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -19,15 +18,14 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 import de.xwic.entitygenerator.EntityInfo;
+import de.xwic.entitygenerator.eclipse.ui.wizard.AbstractGeneratorWizardPage;
 import de.xwic.entitygenerator.eclipse.ui.wizard.GeneratorWizardModel;
 
 /**
  * 
  * @author Aron Cotrau
  */
-public class PropertiesIdentificationPage extends WizardPage {
-
-	private GeneratorWizardModel model;
+public class PropertiesIdentificationPage extends AbstractGeneratorWizardPage {
 
 	private TableViewer tableViewer;
 
@@ -35,9 +33,8 @@ public class PropertiesIdentificationPage extends WizardPage {
 	 * @param pageName
 	 */
 	public PropertiesIdentificationPage(String pageName, GeneratorWizardModel model) {
-		super(pageName);
+		super(pageName, model);
 		
-		this.model = model;
 		setTitle("Properties Identification");
 		setDescription("General overview on the entity properties");
 	}
@@ -57,6 +54,8 @@ public class PropertiesIdentificationPage extends WizardPage {
 
 		// Set up the table
 		Table table = tableViewer.getTable();
+		
+		table.setFont(createValueFont());
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		TableColumn tc = new TableColumn(table, SWT.CENTER);
@@ -72,6 +71,10 @@ public class PropertiesIdentificationPage extends WizardPage {
 		tc.setWidth(150);
 		
 		tc = new TableColumn(table, SWT.CENTER);
+		tc.setText("Included in List Setup");
+		tc.setWidth(150);
+		
+		tc = new TableColumn(table, SWT.CENTER);
 		tc.setText("Maxlength");
 		tc.setWidth(150);
 		
@@ -83,12 +86,13 @@ public class PropertiesIdentificationPage extends WizardPage {
 		table.setLinesVisible(true);
 
 		// Create the cell editors
-		CellEditor[] editors = new CellEditor[5];
+		CellEditor[] editors = new CellEditor[6];
 		editors[0] = new TextCellEditor(table);
 		editors[1] = new ComboBoxCellEditor(table, Constants.entityTypes, SWT.READ_ONLY);
 		editors[2] = new CheckboxCellEditor(table);
-		editors[3] = new TextCellEditor(table);
+		editors[3] = new CheckboxCellEditor(table);
 		editors[4] = new TextCellEditor(table);
+		editors[5] = new TextCellEditor(table);
 		
 		// Set the editors, cell modifier, and column properties
 		tableViewer.setColumnProperties(Constants.columnProperties);

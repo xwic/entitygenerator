@@ -38,7 +38,7 @@ public class WriterDestinationManager {
 		this.rootFolderName = rootFolderName;
 	}
 
-	public IEntityWriterDestination createJavaClassWriter() throws IOException {
+	public IEntityWriterDestination createJavaClassWriter() throws Exception {
 		File file = transformPackage(packageInfo.getEntityPackageName());
 		String fileName = file.getAbsolutePath() + File.separator + entityInfo.getName() + ".java";
 		FileType fileType = FileType.JAVA_CLASS;
@@ -46,7 +46,7 @@ public class WriterDestinationManager {
 		return createWriterDestination(fileName, fileType);
 	}
 
-	public IEntityWriterDestination createJavaInterfaceWriter() throws IOException {
+	public IEntityWriterDestination createJavaInterfaceWriter() throws Exception {
 		File file = transformPackage(packageInfo.getEntityInterfacePackageName());
 		String fileName = file.getAbsolutePath() + File.separator + "I" + entityInfo.getName() + ".java";
 		FileType fileType = FileType.JAVA_INTERFACE;
@@ -54,7 +54,7 @@ public class WriterDestinationManager {
 		return createWriterDestination(fileName, fileType);
 	}
 
-	public IEntityWriterDestination createDAOInterfaceWriter() throws IOException {
+	public IEntityWriterDestination createDAOInterfaceWriter() throws Exception {
 		File file = transformPackage(packageInfo.getDAOInterfacePackageName());
 		String fileName = file.getAbsolutePath() + File.separator + "I" + entityInfo.getName() + "DAO.java";
 		FileType fileType = FileType.DAO_INTERFACE;
@@ -62,7 +62,7 @@ public class WriterDestinationManager {
 		return createWriterDestination(fileName, fileType);
 	}
 
-	public IEntityWriterDestination createDAOClassWriter() throws IOException {
+	public IEntityWriterDestination createDAOClassWriter() throws Exception {
 		File file = transformPackage(packageInfo.getDAOPackageName());
 		String fileName = file.getAbsolutePath() + File.separator + entityInfo.getName() + "DAO.java";
 		FileType fileType = FileType.DAO_CLASS;
@@ -70,7 +70,7 @@ public class WriterDestinationManager {
 		return createWriterDestination(fileName, fileType);
 	}
 
-	public IEntityWriterDestination createHibernateWriter() throws IOException {
+	public IEntityWriterDestination createHibernateWriter() throws Exception {
 		File file = transformPackage(packageInfo.getHibernatePackageName());
 		String fileName = file.getAbsolutePath() + File.separator + entityInfo.getName() + ".hbm.xml";
 		FileType fileType = FileType.HIBERNATE_MAPPING;
@@ -78,12 +78,12 @@ public class WriterDestinationManager {
 		return createWriterDestination(fileName, fileType);
 	}
 
-	public IEntityWriterDestination createSetupWriter() throws IOException {
+	public IEntityWriterDestination createSetupWriter() throws Exception {
 		// TODO !
 		return null;
 	}
 
-	public IEntityWriterDestination createEntityDescriptorWriter() throws IOException {
+	public IEntityWriterDestination createEntityDescriptorWriter() throws Exception {
 		Domain domain = entityInfo.getDomain();
 		String folder = domain != null ? domain.getId() + File.separator : "";
 		File file = transformPackage("config" + File.separator + folder + File.separator + "entitydescriptor");
@@ -93,7 +93,7 @@ public class WriterDestinationManager {
 		return createWriterDestination(fileName, fileType);
 	}
 
-	public IEntityWriterDestination createListSetupWriter() throws IOException {
+	public IEntityWriterDestination createListSetupWriter() throws Exception {
 		Domain domain = entityInfo.getDomain();
 		String folder = domain != null ? domain.getId() + File.separator : "";
 		File file = transformPackage("config" + File.separator + folder + File.separator + "listsetup");
@@ -103,7 +103,7 @@ public class WriterDestinationManager {
 		return createWriterDestination(fileName, fileType);
 	}
 
-	public IEntityWriterDestination createPropertiesBundleWriter() throws IOException {
+	public IEntityWriterDestination createPropertiesBundleWriter() throws Exception {
 		Domain domain = entityInfo.getDomain();
 		String folder = domain != null ? domain.getId() + "File.separator" : "";
 		File file = transformPackage("config" + File.separator + folder + File.separator + "bundle");
@@ -113,7 +113,7 @@ public class WriterDestinationManager {
 		return createWriterDestination(fileName, fileType);
 	}
 	
-	private File transformPackage(String packageName) throws IOException {
+	private File transformPackage(String packageName) throws Exception {
 		String temp = new String(packageName);
 		temp = temp.replace(".", File.separator);
 
@@ -139,7 +139,7 @@ public class WriterDestinationManager {
 	}
 	
 
-	private IEntityWriterDestination createWriterDestination(String fileName, FileType fileType) throws IOException {
+	private IEntityWriterDestination createWriterDestination(String fileName, FileType fileType) throws Exception {
 		File absoluteFile = new File(fileName);
 		if (!absoluteFile.exists()) {
 			absoluteFile.createNewFile();

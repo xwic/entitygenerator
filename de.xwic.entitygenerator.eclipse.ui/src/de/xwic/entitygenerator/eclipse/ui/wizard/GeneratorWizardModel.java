@@ -14,6 +14,8 @@ import de.xwic.entitygenerator.EntityInfo;
 public class GeneratorWizardModel {
 
 	private EntityInfo entityInfo;
+	
+	private String folderName;
 
 	private boolean hibernateFile;
 	private boolean javaClassFile;
@@ -155,6 +157,20 @@ public class GeneratorWizardModel {
 	 */
 	public void setPropertiesBundleFile(boolean propertiesBundleFile) {
 		this.propertiesBundleFile = propertiesBundleFile;
+	}
+
+	/**
+	 * @return the folderName
+	 */
+	public String getFolderName() {
+		return folderName;
+	}
+
+	/**
+	 * @param folderName the folderName to set
+	 */
+	public void setFolderName(String folderName) {
+		this.folderName = folderName;
 	}
 	
 }

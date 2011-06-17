@@ -7,7 +7,6 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -16,27 +15,25 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 import de.xwic.entitygenerator.EntityInfo;
+import de.xwic.entitygenerator.eclipse.ui.wizard.AbstractGeneratorWizardPage;
 import de.xwic.entitygenerator.eclipse.ui.wizard.GeneratorWizardModel;
 
 /**
  * 
  * @author Aron Cotrau
  */
-public class HibernateMappingPage extends WizardPage {
+public class HibernateMappingPage extends AbstractGeneratorWizardPage {
 
-	private GeneratorWizardModel model;
 	private TableViewer tableViewer;
 	
 	/**
 	 * @param pageName
 	 */
 	public HibernateMappingPage(String pageName, GeneratorWizardModel model) {
-		super(pageName);
-		
-		this.model = model;
+		super(pageName, model);
 		
 		setTitle("Hibernate Specific Settings");
-		setDescription("Set the properties types for the Hibernate mapping file");
+		setDescription("Set the properties types for the Hibernate mapping file.");
 	}
 
 	/* (non-Javadoc)
@@ -59,6 +56,7 @@ public class HibernateMappingPage extends WizardPage {
 		
 		// Set up the table
 		Table table = tableViewer.getTable();
+		table.setFont(createValueFont());
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		TableColumn tc = new TableColumn(table, SWT.CENTER);

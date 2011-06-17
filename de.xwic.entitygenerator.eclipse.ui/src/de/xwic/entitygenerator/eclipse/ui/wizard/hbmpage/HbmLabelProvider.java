@@ -7,6 +7,7 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
+import de.xwic.entitygenerator.eclipse.ui.Activator;
 import de.xwic.entitygenerator.property.EntityProperty;
 
 /**
@@ -49,6 +50,16 @@ public class HbmLabelProvider implements ITableLabelProvider {
 	 */
 	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
+		EntityProperty prop = (EntityProperty) element;
+		
+		if (columnIndex == 3 && prop.getShortJavaName().equalsIgnoreCase("string")) {
+			if (prop.isClob()) {
+				return Activator.getDefault().getImage(Activator.IMG_CHECK);
+			} else {
+				return Activator.getDefault().getImage(Activator.IMG_UNCHECK);
+			}
+		}
+		
 		return null;
 	}
 
@@ -71,10 +82,6 @@ public class HbmLabelProvider implements ITableLabelProvider {
 			
 			return "";
 		case 3:
-			if (prop.getShortJavaName().equalsIgnoreCase("string")) {
-				boolean clob = prop.isClob();
-				return Boolean.toString(clob); 
-			}
 			return "";
 		case 4:
 			return prop.getDbColumnName();

@@ -18,6 +18,8 @@ public class EntityProperty extends Property {
 	
 	private String bundleName;
 	private String dbColumnName;
+
+	private boolean defaultListSetupIncluded;
 	
 	public String getDbColumnName() {
 		return dbColumnName;
@@ -27,8 +29,6 @@ public class EntityProperty extends Property {
 		this.dbColumnName = dbColumnName;
 	}
 
-	private boolean defaultListSetupIncluded;
-	
 	public boolean isDefaultListSetupIncluded() {
 		return defaultListSetupIncluded;
 	}

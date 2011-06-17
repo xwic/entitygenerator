@@ -1,6 +1,8 @@
 package de.xwic.entitygenerator.eclipse.ui;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -14,6 +16,16 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+	
+	/**
+	 * The image for a checked box
+	 */
+	public final static String IMG_CHECK = "check";
+
+	/**
+	 * The image for a checked box
+	 */
+	public final static String IMG_UNCHECK = "uncheck";
 	
 	/**
 	 * The constructor
@@ -57,5 +69,22 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+	
+	@Override
+	protected void initializeImageRegistry(ImageRegistry reg) {
+		super.initializeImageRegistry(reg);
+		
+		reg.put(IMG_CHECK, getImageDescriptor("icons/check1.gif"));
+		reg.put(IMG_UNCHECK, getImageDescriptor("icons/uncheck1.gif"));
+	}
+	
+	/**
+	 * Returns the specified image from the ImageRegistry.
+	 * @param key
+	 * @return
+	 */
+	public Image getImage(String key) {
+		return getImageRegistry().get(key);
 	}
 }

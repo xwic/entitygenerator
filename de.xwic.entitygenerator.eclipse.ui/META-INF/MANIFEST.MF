@@ -7,6 +7,15 @@ Bundle-Activator: de.xwic.entitygenerator.eclipse.ui.Activator
 Bundle-Vendor: jwic.de
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.core.resources
+ org.eclipse.core.resources,
+ org.eclipse.jdt.core;bundle-version="3.6.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: lib/de.xwic.entitygenerator.jar,
+ .,
+ lib/xwic-appkit-core.jar,
+ lib/commons-collections-2.1.jar,
+ lib/commons-logging.jar,
+ lib/dom4j.jar,
+ lib/log4j-1.2.8.jar,
+ lib/velocity-1.4.jar
