@@ -1,16 +1,15 @@
 #set ($properties=$entity.properties)
 #set ($package=$entity.packageInfo)
 #set ($className=$format.firstToUpper($entity.name))
-
 package $package.getEntityPackageName();
-
 #* generate imports *#
 #foreach ($property in $properties)
+  #if($property.addImport)
 import $property.javaClass;
+  #end
 #end 
 
 import de.xwic.appkit.core.dao.Entity;
-
 #* generate type comment and the java code *#
 /**
  * $!entity.description

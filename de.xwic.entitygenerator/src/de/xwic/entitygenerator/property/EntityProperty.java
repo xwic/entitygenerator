@@ -1,6 +1,7 @@
 package de.xwic.entitygenerator.property;
 
 import de.xwic.appkit.core.config.model.Property;
+import de.xwic.appkit.core.model.entities.IPicklistEntry;
 import de.xwic.entitygenerator.util.JavaUtil;
 
 /**
@@ -20,7 +21,16 @@ public class EntityProperty extends Property {
 	private String dbColumnName;
 
 	private boolean defaultListSetupIncluded;
+	private boolean addImport;
 	
+	public boolean isAddImport() {
+		return addImport;
+	}
+
+	public void setAddImport(boolean addImport) {
+		this.addImport = addImport;
+	}
+
 	public String getDbColumnName() {
 		return dbColumnName;
 	}
@@ -65,6 +75,12 @@ public class EntityProperty extends Property {
 	 */
 	public void setJavaClass(String javaClass) {
 		this.javaClass = javaClass;
+		setAddImport(JavaUtil.isImportable(javaClass));
+		// do we have a picklist ?
+		if (javaClass.equalsIgnoreCase(IPicklistEntry.class.getName())) {
+			// generate a default picklistId
+			setPicklistId("picklist." + getName());
+		}
 	}
 
 	/**
@@ -79,9 +95,9 @@ public class EntityProperty extends Property {
 	 *            the shortJavaName to set
 	 */
 	public void setShortJavaName(String shortJavaName) {
-		JavaUtil.normalizeShortType(shortJavaName);
-		this.shortJavaName = shortJavaName;
-		setJavaClass(JavaUtil.getJavaType(shortJavaName));
+		String name = JavaUtil.normalizeShortType(shortJavaName);
+		this.shortJavaName = name;
+		setJavaClass(JavaUtil.getJavaType(name));
 	}
 	
 	/**

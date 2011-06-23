@@ -104,6 +104,36 @@ public class VtlUtil {
 		}
 	}
 	
+	public String generateContentFromTemplateStream(InputStream in, Map<String, Object> contextObjects) {
+
+		try {
+			VelocityContext vlContext = new VelocityContext();
+			
+			vlContext.put("format", new FormatUtil(locale));
+			vlContext.put("propertyUtil", new PropertyUtil());
+			
+			Iterator<String> i = contextObjects.keySet().iterator();
+
+			while (i.hasNext()) {
+				String key = i.next();
+
+				vlContext.put(key, contextObjects.get(key));
+			}
+
+			try {
+				StringWriter writer = new StringWriter();
+				Reader reader = new InputStreamReader(in);
+				velocityEngine.evaluate(vlContext, writer, "InputStream", reader);
+				
+				return writer.toString();
+			} finally {
+				in.close();
+			}
+		} catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+	
 	/**
 	 * @param absoluteFileName
 	 * @param contextObjects

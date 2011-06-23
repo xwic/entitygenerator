@@ -82,17 +82,22 @@ public class PropertiesIdentificationPage extends AbstractGeneratorWizardPage {
 		tc.setText("Bundle String");
 		tc.setWidth(150);
 		
+		tc = new TableColumn(table, SWT.CENTER);
+		tc.setText("Picklist ID");
+		tc.setWidth(150);
+		
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
 		// Create the cell editors
-		CellEditor[] editors = new CellEditor[6];
+		CellEditor[] editors = new CellEditor[7];
 		editors[0] = new TextCellEditor(table);
 		editors[1] = new ComboBoxCellEditor(table, Constants.entityTypes, SWT.READ_ONLY);
 		editors[2] = new CheckboxCellEditor(table);
 		editors[3] = new CheckboxCellEditor(table);
 		editors[4] = new TextCellEditor(table);
 		editors[5] = new TextCellEditor(table);
+		editors[6] = new TextCellEditor(table);
 		
 		// Set the editors, cell modifier, and column properties
 		tableViewer.setColumnProperties(Constants.columnProperties);

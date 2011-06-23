@@ -2,8 +2,7 @@
 #set ($package=$entity.packageInfo)
 #set ($className=$format.firstToUpper($entity.name))
 #set ($prefix="${package.getEntityInterfacePackageName()}.I${className}") 
-
-#* generate pairs of FULL_INTERFACE_NAME.PROPERTY=$PROPERTY.BUNDLE_NAME *#
-#foreach ($property in $properties)
-	$prefix.${property.name}=${property.bundleName}
+#foreach ($property in $properties) 
+$prefix.${property.name}=${property.bundleName}
 #end
+#* generate pairs of FULL_INTERFACE_NAME.PROPERTY=$PROPERTY.BUNDLE_NAME *#

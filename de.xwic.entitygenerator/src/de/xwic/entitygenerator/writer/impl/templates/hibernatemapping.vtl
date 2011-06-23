@@ -23,22 +23,22 @@
         </property>
         <property name="serverEntityId" column="SRVENTITY_ID" not-null="true" type="int"/>
         
-        #foreach($property in $properties)
-        	#set ($name=$property.name)
-        	#if ($propertyUtil.isPrimitive($property))
-        		<property name="$name" type="$property.shortJavaName" column="$property.dbColumnName"/>
-			#elseif ($propertyUtil.isEntityType($property))
-        		<many-to-one name="$name" class="$property.javaClass" column="$property.dbColumnName"/>        		
-        	#elseif ($propertyUtil.isString($property))
-        		#if ($property.clob)
-        			<property name="$name" type="org.hibernate.type.TextType" column="$property.dbColumnName" />
-        		#else
-        			<property name="$name" column="$property.dbColumnName" #if($property.maxLength > 0) length="$property.maxLength" #end />
-        		#end	
-        	#else
-        		<property name="$name" column="$property.dbColumnName"/>
-        	#end
-        #end
+#foreach($property in $properties)
+#set ($name=$property.name)
+#if ($propertyUtil.isPrimitive($property))
+	<property name="$name" type="$property.shortJavaName" column="$property.dbColumnName"/>
+#elseif ($propertyUtil.isEntityType($property))
+	<many-to-one name="$name" class="$propertyUtil.getJavaImplClass($property.javaClass)" column="$property.dbColumnName"/>        		
+#elseif ($propertyUtil.isString($property))
+#if ($property.clob)
+	<property name="$name" type="org.hibernate.type.TextType" column="$property.dbColumnName" />
+#else
+	<property name="$name" column="$property.dbColumnName" #if($property.maxLength > 0) length="$property.maxLength" #end />
+#end	
+#else
+	<property name="$name" column="$property.dbColumnName"/>
+#end
+#end
         
         
 		<property name="createdAt" type="timestamp">

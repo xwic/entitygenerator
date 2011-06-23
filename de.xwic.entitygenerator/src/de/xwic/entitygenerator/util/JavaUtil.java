@@ -31,9 +31,9 @@ public class JavaUtil {
 
 		if (shortType.equalsIgnoreCase("string") || shortType.equalsIgnoreCase("text")) {
 			return String.class.getName();
-		} else if (shortType.equalsIgnoreCase("picklistentry") || shortType.equalsIgnoreCase("picklist")) {
+		} else if (shortType.equalsIgnoreCase("picklistentry") || shortType.equalsIgnoreCase("picklist") || shortType.equalsIgnoreCase("ipicklistentry")) {
 			return IPicklistEntry.class.getName();
-		} else if (shortType.equalsIgnoreCase("employee") || shortType.equalsIgnoreCase("mitarbeiter")) {
+		} else if (shortType.equalsIgnoreCase("employee") || shortType.equalsIgnoreCase("mitarbeiter") || shortType.equalsIgnoreCase("imitarbeiter")) {
 			return IMitarbeiter.class.getName();
 		} else if (shortType.equalsIgnoreCase("set")) {
 			return Set.class.getName();
@@ -44,34 +44,50 @@ public class JavaUtil {
 		return shortType;
 	}
 
+	public static boolean isImportable(String className) {
+		if (className.lastIndexOf(".") < 0) {
+			// primitive
+			return false;
+		} else if (className.startsWith("java.lang")) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * Normalizes the short type string
 	 * 
 	 * @param shortType
 	 */
-	public static void normalizeShortType(String shortType) {
+	public static String normalizeShortType(String shortType) {
+		String normalized = shortType;
 		if (null == shortType) {
-			return;
+			return "";
 		}
 
 		// normalize short type
 		if (shortType.equalsIgnoreCase("int")) {
-			shortType = "int";
+			normalized = "int";
 		} else if (shortType.equalsIgnoreCase("long")) {
-			shortType = "long";
+			normalized = "long";
 		} else if (shortType.equalsIgnoreCase("boolean")) {
-			shortType = "boolean";
+			normalized = "boolean";
+		} else if (shortType.equalsIgnoreCase("double")) {
+			normalized = "double";
 		} else if (shortType.equalsIgnoreCase("set")) {
-			shortType = "Set";
+			normalized = "Set";
 		} else if (shortType.equalsIgnoreCase("list")) {
-			shortType = "List";
+			normalized = "List";
 		} else if (shortType.equalsIgnoreCase("employee")) {
-			shortType = "Mitarbeiter";
+			normalized = "Mitarbeiter";
 		} else if (shortType.equalsIgnoreCase("picklistentry")) {
-			shortType = "PicklistEntry";
+			normalized = "PicklistEntry";
 		} else if (shortType.equalsIgnoreCase("string")) {
-			shortType = "String";
+			normalized = "String";
 		}
+		
+		return normalized;
 	}
 
 	/**

@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import de.xwic.entitygenerator.EntityInfo;
 import de.xwic.entitygenerator.eclipse.ui.wizard.AbstractGeneratorWizardPage;
 import de.xwic.entitygenerator.eclipse.ui.wizard.GeneratorWizardModel;
 
@@ -25,6 +26,7 @@ import de.xwic.entitygenerator.eclipse.ui.wizard.GeneratorWizardModel;
 public class GeneralSettingsPage extends AbstractGeneratorWizardPage {
 
 	private Text txtEntity;
+	private Text txtDescription;
 
 	public GeneralSettingsPage(String pageName, GeneratorWizardModel model) {
 		super(pageName, model);
@@ -83,10 +85,26 @@ public class GeneralSettingsPage extends AbstractGeneratorWizardPage {
 		lblEntity.setFont(createHeaderFont());
 
 		txtEntity = new Text(container, SWT.BORDER);
-		txtEntity.setText(model.getEntityInfo().getName());
+		String name = model.getEntityInfo().getName();
+		txtEntity.setText(name != null ? name : "");
 		txtEntity.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		txtEntity.setFont(createValueFont());
 
+		Label lblDummy = new Label(container, SWT.NONE);
+		lblDummy.setText("");
+		lblDummy.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
+		
+		Label lblComment = new Label(container, SWT.NONE);
+		lblComment.setText("Entity Description");
+		lblComment.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
+		lblComment.setFont(createHeaderFont());
+		
+		txtDescription = new Text(container, SWT.BORDER | SWT.WRAP);
+		String descr = model.getEntityInfo().getDescription();
+		txtDescription.setText(descr != null ? descr : "");
+		txtDescription.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
+		txtDescription.setFont(createValueFont());
+		
 		final Button btnJavaClass = new Button(container, SWT.CHECK);
 		btnJavaClass.setText("Java Class");
 		btnJavaClass.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, false, 2, 1));
@@ -207,7 +225,9 @@ public class GeneralSettingsPage extends AbstractGeneratorWizardPage {
 	@Override
 	public IWizardPage getNextPage() {
 		// update the model first
-		model.getEntityInfo().setName(txtEntity.getText());
+		EntityInfo entityInfo = model.getEntityInfo();
+		entityInfo.setName(txtEntity.getText());
+		entityInfo.setDescription(txtDescription.getText());
 		return super.getNextPage();
 	}
 

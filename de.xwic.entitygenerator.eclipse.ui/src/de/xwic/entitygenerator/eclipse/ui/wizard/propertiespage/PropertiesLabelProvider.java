@@ -79,23 +79,30 @@ public class PropertiesLabelProvider implements ITableLabelProvider {
 	public String getColumnText(Object element, int columnIndex) {
 		EntityProperty prop = (EntityProperty) element;
 		
+		String shortJavaName = prop.getShortJavaName();
 		switch (columnIndex) {
 		case 0:
 			return prop.getName();
 		case 1:
-			return prop.getShortJavaName();
+			return shortJavaName;
 		case 2:
 			return "";
 		case 3:
 			return "";
 		case 4:
-			if (prop.getShortJavaName().equalsIgnoreCase("string")) {
+			if (shortJavaName.equalsIgnoreCase("string")) {
 				return String.valueOf(prop.getMaxLength());
 			}
 			
 			return "";
 		case 5:
 			return prop.getBundleName();
+		case 6:
+			if (shortJavaName.equalsIgnoreCase("ipicklistentry") || shortJavaName.equalsIgnoreCase("picklistentry")) {
+				return prop.getPicklistId();
+			}
+			
+			return "";
 		}
 		
 		return "";

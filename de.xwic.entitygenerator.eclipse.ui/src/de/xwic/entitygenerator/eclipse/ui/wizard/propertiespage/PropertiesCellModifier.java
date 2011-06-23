@@ -26,8 +26,15 @@ public class PropertiesCellModifier implements ICellModifier {
 	 */
 	@Override
 	public boolean canModify(Object element, String property) {
+		EntityProperty el = (EntityProperty) element;
+		String shortJavaName = el.getShortJavaName();
+		
 		if (property.equalsIgnoreCase("Clob") || property.equalsIgnoreCase("Maxlength")) {
-			return ((EntityProperty) element).getShortJavaName().equalsIgnoreCase("string");
+			return shortJavaName.equalsIgnoreCase("string");
+		}
+		
+		if (property.equalsIgnoreCase("PicklistId")) {
+			return shortJavaName.equalsIgnoreCase("picklistentry") || shortJavaName.equalsIgnoreCase("ipicklistentry"); 
 		}
 		
 		return true;
@@ -60,6 +67,8 @@ public class PropertiesCellModifier implements ICellModifier {
 			return String.valueOf(prop.getMaxLength());
 		} else if (property.equalsIgnoreCase(props[5])) {
 			return prop.getBundleName();
+		} else if (property.equalsIgnoreCase(props[6])) {
+			return prop.getPicklistId();
 		}
 		
 		return null;
@@ -90,6 +99,8 @@ public class PropertiesCellModifier implements ICellModifier {
 			prop.setMaxLength(Integer.parseInt(value.toString()));
 		} else if (property.equalsIgnoreCase(props[5])) {
 			prop.setBundleName((String) value);
+		} else if (property.equalsIgnoreCase(props[6])) {
+			prop.setPicklistId((String) value);
 		}
 		
 		tv.refresh(element);
