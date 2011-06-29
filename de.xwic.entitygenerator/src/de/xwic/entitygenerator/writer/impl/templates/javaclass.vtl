@@ -26,13 +26,19 @@ public class $className extends Entity implements I$className {
 #* generate getters and setters for the properties *#
 #foreach ($property in $properties)
 	
-  public $property.shortJavaName get$format.firstToUpper($property.name)() {
-	return this.$property.name;
-  }
-		
-  public set$format.firstToUpper($property.name)($property.shortJavaName $property.name) {
-	this.$property.name = $property.name;
-  }
+	/**
+	* @return the ${property.name}
+	*/
+	public $property.shortJavaName get$format.firstToUpper($property.name)() {
+		return $property.name;
+	}
+	
+	/**
+ 	* @param ${property.name} the ${property.name} to set
+ 	*/	
+  	public set$format.firstToUpper($property.name)($property.shortJavaName $property.name) {
+		this.$property.name = $property.name;
+	}
 #end 
 
 }

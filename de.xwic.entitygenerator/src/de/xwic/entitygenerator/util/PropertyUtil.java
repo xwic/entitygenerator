@@ -3,8 +3,10 @@
  */
 package de.xwic.entitygenerator.util;
 
+import de.xwic.appkit.core.model.entities.IAnhang;
 import de.xwic.appkit.core.model.entities.IMitarbeiter;
 import de.xwic.appkit.core.model.entities.IPicklistEntry;
+import de.xwic.appkit.core.model.entities.impl.Anhang;
 import de.xwic.appkit.core.model.entities.impl.Mitarbeiter;
 import de.xwic.appkit.core.model.entities.impl.PicklistEntry;
 import de.xwic.entitygenerator.property.EntityProperty;
@@ -25,9 +27,14 @@ public class PropertyUtil {
 		return shortJavaName.equalsIgnoreCase("string");
 	}
 	
+	public boolean isDate(EntityProperty property) {
+		String shortJavaName = property.getShortJavaName();
+		return shortJavaName.equalsIgnoreCase("date");
+	}
+	
 	public boolean isEntityType(EntityProperty property) {
 		String shortJavaName = property.getShortJavaName();
-		return shortJavaName.equalsIgnoreCase("mitarbeiter") || shortJavaName.equalsIgnoreCase("employee") || shortJavaName.equalsIgnoreCase("picklistentry") || shortJavaName.equalsIgnoreCase("imitarbeiter") || shortJavaName.equalsIgnoreCase("ipicklistentry");
+		return shortJavaName.equalsIgnoreCase("mitarbeiter") || shortJavaName.equalsIgnoreCase("employee") || shortJavaName.equalsIgnoreCase("picklistentry") || shortJavaName.equalsIgnoreCase("imitarbeiter") || shortJavaName.equalsIgnoreCase("ipicklistentry") || shortJavaName.equalsIgnoreCase("ianhang");
 	}
 	
 	public String getJavaImplClass(String interfaceName) {
@@ -35,6 +42,8 @@ public class PropertyUtil {
 			return PicklistEntry.class.getName();
 		} else if (interfaceName.equalsIgnoreCase(IMitarbeiter.class.getName())) {
 			return Mitarbeiter.class.getName();
+		} else if (interfaceName.equalsIgnoreCase(IAnhang.class.getName())) {
+			return Anhang.class.getName();
 		}
 		
 		return interfaceName;

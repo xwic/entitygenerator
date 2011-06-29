@@ -3,9 +3,11 @@
  */
 package de.xwic.entitygenerator.util;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import de.xwic.appkit.core.model.entities.IAnhang;
 import de.xwic.appkit.core.model.entities.IMitarbeiter;
 import de.xwic.appkit.core.model.entities.IPicklistEntry;
 
@@ -39,6 +41,10 @@ public class JavaUtil {
 			return Set.class.getName();
 		} else if (shortType.equalsIgnoreCase("list")) {
 			return List.class.getName();
+		} else if (shortType.equalsIgnoreCase("date")) {
+			return Date.class.getName();
+		} else if (shortType.equalsIgnoreCase("anhang") || shortType.equalsIgnoreCase("ianhang") || shortType.equalsIgnoreCase("attachment")) {
+			return IAnhang.class.getName();
 		}
 
 		return shortType;
@@ -79,12 +85,16 @@ public class JavaUtil {
 			normalized = "Set";
 		} else if (shortType.equalsIgnoreCase("list")) {
 			normalized = "List";
-		} else if (shortType.equalsIgnoreCase("employee")) {
+		} else if (shortType.equalsIgnoreCase("imitarbeiter")) {
 			normalized = "Mitarbeiter";
-		} else if (shortType.equalsIgnoreCase("picklistentry")) {
-			normalized = "PicklistEntry";
+		} else if (shortType.equalsIgnoreCase("ipicklistentry")) {
+			normalized = "IPicklistEntry";
 		} else if (shortType.equalsIgnoreCase("string")) {
 			normalized = "String";
+		} else if (shortType.equalsIgnoreCase("date")) {
+			normalized = "Date";
+		} else if (shortType.equalsIgnoreCase("ianhang")) {
+			normalized = "IAnhang";
 		}
 		
 		return normalized;

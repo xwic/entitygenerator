@@ -20,10 +20,16 @@ import de.xwic.appkit.core.dao.IEntity;
 public interface I$className extends IEntity {
 	#* generate getters and setters for the properties *#
   #foreach ($property in $properties)
-
-  public $property.shortJavaName get$format.firstToUpper($property.name)();
-		
-  public set$format.firstToUpper($property.name)($property.shortJavaName $property.name);
+  
+	/**
+	* @return the ${property.name}
+	*/
+	public $property.shortJavaName get$format.firstToUpper($property.name)();
+	
+	/**
+ 	* @param ${property.name} the ${property.name} to set
+ 	*/		
+	public set$format.firstToUpper($property.name)($property.shortJavaName $property.name);
   #end 
 	
 }
